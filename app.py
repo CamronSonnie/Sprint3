@@ -1,6 +1,3 @@
-# Using OpenAI GPT-3.5 for natural language meal recommendation:
-# https://platform.openai.com/docs/models
-
 # AI nutrition recommendation using a deep generative model and ChatGPT
 # https://www.nature.com/articles/s41598-024-65438-x
 
@@ -12,11 +9,11 @@ from openai import OpenAI
 app = Flask(__name__)
 
 # Set OpenAI API key
-# https://platform.openai.com/docs/quickstart
+# Reference: https://platform.openai.com/docs/quickstart
 os.environ["OPENAI_API_KEY"] = "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"
 
 # Create the OpenAI client
-# https://platform.openai.com/docs/quickstart
+# Reference: https://platform.openai.com/docs/quickstart
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 user_profiles = {}
@@ -60,9 +57,10 @@ def recommend():
     dislikes = user_profile.get('dislikes', "No dislikes")
 
     try:
-        # Generate food recommendations
+        # Using OpenAI GPT-3.5 for natural language meal recommendation:
+        # Reference: https://platform.openai.com/docs/models
         # This provides all the requirements my project stated
-        # https://platform.openai.com/docs/quickstart
+        # Reference: https://platform.openai.com/docs/quickstart
         chat_completion = client.chat.completions.create(
             model="gpt-3.5-turbo", 
             messages=[
@@ -80,6 +78,8 @@ def recommend():
                     "content": f"{user_input}. Provide at least three meal suggestions with detailed recipes and shopping lists."
                 }
             ],
+            # Managing token limits based on OpenAI recommendations:
+            # Reference: https://platform.openai.com/docs/guides/completions
             max_tokens=1000  # Token limit increased since were doing multiple meals
         )
         result = chat_completion.choices[0].message.content.strip()
